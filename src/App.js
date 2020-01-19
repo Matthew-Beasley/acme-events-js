@@ -1,24 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
+import moment from 'moment';
 import './App.css';
 
+
 function App() {
+  const [date, setDate] = useState(''); //use moment to initialize this
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="form-panel">
+        <form onSubmit={e => e.preventDefault()}>
+          <input type="text" onChange={e => { setDate(e.target.value) }}></input>
+          <input type="text" placeholder="Title" onChange={e => { setTitle(e.target.value) }}></input>
+          <input type="text" placeholder="Content" onChange={e => { setContent(e.target.value) }}></input>
+          <p>{date}</p>
+          <p>{title}</p>
+          <p>{content}</p>
+          <button>test</button>
+        </form>
+      </div>
+      <div className="display-panel">
+      {/*this will be ul of divs*/}
+      </div>
     </div>
   );
 }
