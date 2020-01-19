@@ -4,7 +4,7 @@ import './App.css';
 
 
 function App() {
-  const [date, setDate] = useState(); //use moment to initialize this
+  const [date, setDate] = useState(''); //use moment to initialize this
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [events, setEvent] = useState([]);
@@ -19,7 +19,9 @@ function App() {
   }
 
 
+  // comparetor won't work without some adjustment
   const deleteEvent = ({ target }) => {
+    console.log(target.parentNode)
     const updated = events.filter(event => {
       if (!target.classList.contains(event.key)) {
         return event;
