@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import './App.css';
+import CreateList from './CreateList';
 import EventList from './EventList';
 
 
@@ -63,19 +64,12 @@ function App() {
 
   doSort();
 
-
   return (
     <div className="App">
       <h2>Acme Event Tracker</h2>
       <main>
-        <div className="form-panel">
-          <form onSubmit={e => e.preventDefault()}>
-            <input type="text" value={date} placeholder="mm/dd/yyyy" onChange={e => setDate(e.target.value) }></input>
-            <input type="text" value={title} placeholder="Title" onChange={e => setTitle(e.target.value) }></input>
-            <input type="text" value={content} placeholder="Content" onChange={e => setContent(e.target.value) }></input>
-            <button disabled={!date || !title || !content} onClick={createEvent}>Create Event</button>
-          </form>
-        </div>
+        <CreateList date={date} title={title} content={content} setDate={setDate}
+          setTitle={setTitle} setContent={setContent} createEvent={createEvent}/>
         <EventList events={events} deleteEvent={deleteEvent}/>
       </main>
     </div>
