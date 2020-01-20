@@ -10,8 +10,27 @@ function App() {
   const [events, setEvent] = useState([]);
 
 
+  const setColor = () => {
+    if (events.length > 0) {
+      events.forEach(event => {
+        const time = event.date.replace(/\//g, '');
+        const momentInTime = moment(time, 'MMDDYYYY').fromNow()
+        
+        if (momentInTime.includes('ago')) {
+          event.relativity = 'past';
+        }
+        else {
+          event.relativity = 'future';
+        }
+      })
+    }
+  }
+
+  setColor(); //don't like this but events.length is one short in createEvent
+
+
   const createEvent = () => {
-    const event = { date: date, title: title, content: content, key: events.length + 1 };
+    const event = { date: date, title: title, content: content, relativity: 'future' , key: events.length + 1 };
     setEvent([...events, event]);
     setDate('');
     setTitle('');
@@ -21,7 +40,6 @@ function App() {
 
   // comparetor won't work without some adjustment
   const deleteEvent = ({ target }) => {
-    console.log(target.parentNode)
     const updated = events.filter(event => {
       if (!target.classList.contains(event.key)) {
         return event;
@@ -48,7 +66,7 @@ function App() {
             {events.map((event, idx) => {
               return (
                 <li key={event.key}>
-                  <div className="event-card">
+                  <div className={event.relativity}>
                     <h4>{event.title}</h4>
                     <p>{event.date}</p>
                     <p>{event.content}</p> 
