@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import './App.css';
-import EventList from './eventList';
+import EventList from './EventList';
 
 
 function App() {
-  const [date, setDate] = useState(''); //use moment to initialize this
+  const [date, setDate] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [events, setEvent] = useState([]);
@@ -41,7 +41,7 @@ function App() {
   }
 
 
-  const setColor = () => {
+  const doSort= () => {
     const now = moment().valueOf();
     events.forEach(event => {
       const diff = Math.abs(now - event.milliseconds)
@@ -61,7 +61,7 @@ function App() {
     })
   }
 
-  setColor();
+  doSort();
 
 
   return (
@@ -70,15 +70,13 @@ function App() {
       <main>
         <div className="form-panel">
           <form onSubmit={e => e.preventDefault()}>
-            <input type="text" value={date} placeholder="mm/dd/yyyy" onChange={e => { setDate(e.target.value) }}></input>
-            <input type="text" value={title} placeholder="Title" onChange={e => { setTitle(e.target.value) }}></input>
-            <input type="text" value={content} placeholder="Content" onChange={e => { setContent(e.target.value) }}></input>
-            <button disabled={!date || !title || !content} onClick={() => { createEvent() }}>Create Event</button>
+            <input type="text" value={date} placeholder="mm/dd/yyyy" onChange={e => setDate(e.target.value) }></input>
+            <input type="text" value={title} placeholder="Title" onChange={e => setTitle(e.target.value) }></input>
+            <input type="text" value={content} placeholder="Content" onChange={e => setContent(e.target.value) }></input>
+            <button disabled={!date || !title || !content} onClick={createEvent}>Create Event</button>
           </form>
         </div>
-        <div className="display-panel">
-          <EventList events={events} deleteEvent={deleteEvent}/>
-        </div>
+        <EventList events={events} deleteEvent={deleteEvent}/>
       </main>
     </div>
   );
