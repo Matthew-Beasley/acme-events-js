@@ -10,34 +10,19 @@ function App() {
   const [events, setEvent] = useState([]);
 
 
-  const setColor = () => {
-    if (events.length > 0) {
-      events.forEach(event => {
-        const time = event.date.replace(/\//g, '');
-        const momentInTime = moment(time, 'MMDDYYYY').fromNow()
-        console.log(momentInTime)
-        
-        if (momentInTime.includes('hours ago')) {
-          event.relativity = 'today';
-        }
-        else if (momentInTime.includes('days ago') ||
-          momentInTime.includes('months ago') ||
-          momentInTime.includes('years ago')) {
-          event.relativity = 'past';
-        }
-        else {
-          event.relativity = 'future';
-        }
-
-      })
-    }
-  }
-
-  setColor(); //don't like this but events.length is one short in createEvent
-
-
   const createEvent = () => {
-    const event = { date: date, title: title, content: content, relativity: 'future' , key: events.length + 1 };
+    const time = date.replace(/\//g, '');
+    const milliseconds = moment(time, 'MMDDYYYY').valueOf();
+
+    const event = {
+      date: date,
+      milliseconds: milliseconds,
+      title: title,
+      content: content,
+      relativity: 'future',
+      key: events.length + 1
+    };
+
     setEvent([...events, event]);
     setDate('');
     setTitle('');
@@ -55,6 +40,29 @@ function App() {
   }
 
 
+  const setColor = () => {
+    const now = moment().valueOf();
+    events.forEach(event => {
+      const diff = Math.abs(now - event.milliseconds)
+      if (diff < 86400000) {
+        event.relativity = 'today';
+      }
+      else if (now > event.milliseconds) {
+        event.relativity = 'past';
+      }
+      else if (now < event.milliseconds) {
+        event.relativity = 'future'
+      }
+    })
+
+    events.sort((a, b) => {
+      return b.milliseconds - a.milliseconds
+    })
+  }
+
+  setColor();
+  
+
   return (
     <div className="App">
       <h2>Acme Event Tracker</h2>
@@ -64,7 +72,7 @@ function App() {
             <input type="text" value={date} placeholder="mm/dd/yyyy" onChange={e => { setDate(e.target.value) }}></input>
             <input type="text" value={title} placeholder="Title" onChange={e => { setTitle(e.target.value) }}></input>
             <input type="text" value={content} placeholder="Content" onChange={e => { setContent(e.target.value) }}></input>
-            <button disabled={!date || !title || !content} onClick={() => createEvent() }>Create Event</button>
+            <button disabled={!date || !title || !content} onClick={() => { createEvent() } }>Create Event</button>
           </form>
         </div>
         <div className="display-panel">
