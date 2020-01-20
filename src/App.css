@@ -82,6 +82,10 @@ p {
   background-color: lightseagreen;
 }
 
+.today {
+  background-color: lightsteelblue;
+}
+
 .invisible {
   display: none;
 }

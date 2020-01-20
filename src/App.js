@@ -15,13 +15,20 @@ function App() {
       events.forEach(event => {
         const time = event.date.replace(/\//g, '');
         const momentInTime = moment(time, 'MMDDYYYY').fromNow()
+        console.log(momentInTime)
         
-        if (momentInTime.includes('ago')) {
+        if (momentInTime.includes('hours ago')) {
+          event.relativity = 'today';
+        }
+        else if (momentInTime.includes('days ago') ||
+          momentInTime.includes('months ago') ||
+          momentInTime.includes('years ago')) {
           event.relativity = 'past';
         }
         else {
           event.relativity = 'future';
         }
+
       })
     }
   }
@@ -38,7 +45,6 @@ function App() {
   }
 
 
-  // comparetor won't work without some adjustment
   const deleteEvent = ({ target }) => {
     const updated = events.filter(event => {
       if (!target.classList.contains(event.key)) {
