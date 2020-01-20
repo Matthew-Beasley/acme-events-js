@@ -42,7 +42,7 @@ function App() {
   }
 
 
-  const doSort= () => {
+  const doSort = () => {
     const now = moment().valueOf();
     events.forEach(event => {
       const diff = Math.abs(now - event.milliseconds)
@@ -69,8 +69,8 @@ function App() {
       <h2>Acme Event Tracker</h2>
       <main>
         <CreateList date={date} title={title} content={content} setDate={setDate}
-          setTitle={setTitle} setContent={setContent} createEvent={createEvent}/>
-        <EventList events={events} deleteEvent={deleteEvent}/>
+          setTitle={setTitle} setContent={setContent} createEvent={createEvent} />
+        <EventList events={events} deleteEvent={deleteEvent} />
       </main>
     </div>
   );
