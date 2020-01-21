@@ -67,6 +67,8 @@ function App() {
   return (
     <div className="App">
       <h2>Acme Event Tracker</h2>
+      <h5>Today is {moment().format('MMMM Do YYYY')}</h5>
+      <h5>There are {events.length} events</h5>
       <main>
         <CreateList date={date} title={title} content={content} setDate={setDate}
           setTitle={setTitle} setContent={setContent} createEvent={createEvent} />
